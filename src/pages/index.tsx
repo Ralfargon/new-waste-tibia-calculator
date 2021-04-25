@@ -19,11 +19,12 @@ export default function WasteLog() {
   const [sessionData1, setSessionData1] = useState("");
   const [preyCard, setPreyCard] = useState("0");
   const [priceTc, setPriceTc] = useState("0");
+  const [EkCard, setEkCard] = useState("");
 
-
+  
   function handleSessionData(value) {
     setSessionData1(value);
-    console.log(sessionData1)
+
   }
 
   function handlePreyCard(value) {
@@ -33,7 +34,10 @@ export default function WasteLog() {
   function handlePriceTc(value) {
     setPriceTc(value);
   }
-
+  function handleEkCard(value) {
+    setEkCard(value);
+    console.log(EkCard)
+  }
 
 
   function parseSessionData(s: string): SessionDataEntry[] {
@@ -84,7 +88,7 @@ export default function WasteLog() {
   });
 
 
-
+console.log(balances)
 
 
   const preyCardCount = parseFloat(preyCard);
@@ -101,12 +105,14 @@ export default function WasteLog() {
   const toPay: { name: string; value: number }[] = [];
   Object.keys(balances).forEach((char) => {
     const n = k - balances[char];
+
+
     if (n > 0) {
       toReceive.push({ name: char, value: n });
     } else {
       toPay.push({ name: char, value: -n });
     }
-    console.log(n)
+    console.log(balances)
   });
 
 
@@ -159,6 +165,11 @@ export default function WasteLog() {
 
           <SimpleGrid minChildWidth="320px" align="center" alignSelf="center" mx="auto">
             <Box>
+            <Input mb="2" type="text" name="data" label="EK name" size="md"
+                onChange={(event) => {
+                  handleEkCard(event.target.value);
+                }} />
+
               <Input mb="2" type="number" name="data" label="Prey Card" size="md"
                 onChange={(event) => {
                   handlePreyCard(event.target.value);
@@ -176,10 +187,7 @@ export default function WasteLog() {
               <Box>
                 <Text mt="8">Result</Text>
                 <Text>{result.map((x, y) =>
-
-                  <span key={y}>{`${x.payer} to pay ${x.value} to ${x.receiver}`}<br/></span> )
-                  
-                }
+                  <span key={y}>{`${x.payer} to pay ${x.value} to ${x.receiver}`}<br/></span>)}
                 </Text>
               </Box>
             </Box>
