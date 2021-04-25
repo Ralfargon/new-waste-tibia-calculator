@@ -147,7 +147,7 @@ export default function WasteLog() {
 
         <Flex width="100%" maxWidth={700} bg="gray.800" mx="auto" borderRadius={8}>
 
-          <SimpleGrid py="5" px="5" gap="4" mimChildWidth="320px" align="flex-start">
+          <SimpleGrid py="5" px="5" gap="4" minChildWidth="320px" align="flex-start">
             <Box>
               <Text>Party Session</Text>
               <Textarea fontSize="sm" height="500" maxWidth={360} size="lg" type="text" name="data" label="Session data"
@@ -157,7 +157,7 @@ export default function WasteLog() {
             </Box>
           </SimpleGrid >
 
-          <SimpleGrid mimChildWidth="320px" align="center" alignSelf="center" mx="auto">
+          <SimpleGrid minChildWidth="320px" align="center" alignSelf="center" mx="auto">
             <Box>
               <Input mb="2" type="number" name="data" label="Prey Card" size="md"
                 onChange={(event) => {
@@ -177,7 +177,7 @@ export default function WasteLog() {
                 <Text mt="8">Result</Text>
                 <Text>{result.map((x, y) =>
 
-                  <h2>{`${x.payer} to pay ${x.value} to ${x.receiver}`}<br/></h2> )
+                  <p>{`${x.payer} to pay ${x.value} to ${x.receiver}`}<br/></p> )
                   
                 }
                 </Text>
