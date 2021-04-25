@@ -17,8 +17,8 @@ type SessionDataEntry =
 
 export default function WasteLog() {
   const [sessionData1, setSessionData1] = useState("");
-  const [preyCard, setPreyCard] = useState(0);
-  const [priceTc, setPriceTc] = useState(0);
+  const [preyCard, setPreyCard] = useState("0");
+  const [priceTc, setPriceTc] = useState("0");
 
 
   function handleSessionData(value) {
