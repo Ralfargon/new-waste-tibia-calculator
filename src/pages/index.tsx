@@ -177,7 +177,7 @@ export default function WasteLog() {
                 <Text mt="8">Result</Text>
                 <Text>{result.map((x, y) =>
 
-                  <p>{`${x.payer} to pay ${x.value} to ${x.receiver}`}<br/></p> )
+                  <span key={y}>{`${x.payer} to pay ${x.value} to ${x.receiver}`}<br/></span> )
                   
                 }
                 </Text>
