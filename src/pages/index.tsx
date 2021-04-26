@@ -2,7 +2,6 @@ import { Flex, Text, Box, Button, Stack, Select, Textarea, SimpleGrid } from '@c
 import { useState } from 'react';
 import { Input } from '../components/Form/Input'
 
-
 type SessionDataEntry =
   | {
     kind: "char";
@@ -13,7 +12,6 @@ type SessionDataEntry =
     name: string;
     value: string;
   };
-
 
 export default function WasteLog() {
   const [sessionData1, setSessionData1] = useState("");
@@ -74,7 +72,6 @@ export default function WasteLog() {
     }
   });
 
-  // nomes
   const charNames = Object.keys(balances)
 
   let preyCardCount = parseFloat(preyCard);
@@ -86,10 +83,6 @@ export default function WasteLog() {
   if (ekName !== "") {
     balances[ekName] -= preyCardCount * tcPrice * 10;
   }
-
-  // QUEM EH EK, ek tem supp, /4 pra todo loot, 
-  // discount prey card costs
-  // total -= preyCardCount * tcPrice * 10;
 
   const total = Object.keys(balances).reduce((total, char) => total + balances[char], 0);
   const k = Math.floor(total / charCount);
@@ -109,8 +102,6 @@ export default function WasteLog() {
   toReceive.sort((a, b) => b.value - a.value);
   toPay.sort((a, b) => b.value - a.value);
 
-  // const result: { payer: string; value: number; receiver: string }[] = [];
-  // const result: { [payer: string]: number } = {};
   const result: { payer: string; value: number; receiver: string }[] = [];
   while (toReceive.length > 0 && toPay.length > 0) {
     const receiver = toReceive[0];
@@ -134,9 +125,7 @@ export default function WasteLog() {
   return (
     <>
       <Flex w="100vw" h="100vh" align="center" justify="center" >
-
         <Flex width="100%" maxWidth={700} bg="gray.800" mx="auto" borderRadius={8}>
-
           <SimpleGrid py="5" px="5" gap="4" minChildWidth="320px" align="flex-start">
             <Box>
               <Text>Party Session</Text>
@@ -146,7 +135,6 @@ export default function WasteLog() {
                 }} />
             </Box>
           </SimpleGrid >
-
           <SimpleGrid minChildWidth="320px" align="center" alignSelf="center" mx="auto">
             <Box>
               <Input as={Select} mb="2" type="text" name="data" label="EK name" size="md" value={ekName}
@@ -154,25 +142,14 @@ export default function WasteLog() {
               >
                 {charNames.map((name, index) => <option key={index} value={name}>{name}</option>)}
               </Input>
-
               <Input mb="2" type="number" name="data" label="Prey Card" size="md" value={preyCard}
                 onChange={(event) => {
                   handlePreyCard(event.target.value);
                 }} />
-
               <Input type="number" name="data" label="Tc price" size="md" value={priceTc}
                 onChange={(event) => {
                   handlePriceTc(event.target.value);
                 }} />
-
-              {/* <Button type="submit" mt="6" mb="8" colorScheme="purple" size="md" alignSelf="center"
-              onClick={() => 
-              
-              }
-              >
-                Calcular
-              </Button> */}
-
               <Box>
                 <Text mt="8">Result</Text>
                 <Text>{result.map((x, y) => 
@@ -182,7 +159,6 @@ export default function WasteLog() {
             </Box>
           </SimpleGrid>
         </Flex>
-
       </Flex>
     </>
   )
