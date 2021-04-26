@@ -1,4 +1,6 @@
 # new-waste-tibia-calculator
+Co-authored-by: [Felipe Rosa](https://github.com/FelipeRosa)
+
 Exemple
 
 
