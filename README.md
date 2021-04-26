@@ -1,8 +1,10 @@
 # new-waste-tibia-calculator
 Co-authored-by: [Felipe Rosa](https://github.com/FelipeRosa)
 
-Exemple
+https://new-waste-tibia-calculator.vercel.app/
 
+
+Exemple:
 
 Session data: From 2021-04-23, 08:07:15 to 2021-04-23, 11:20:20 , <br/>
 Session: 03:13h<br/>
