@@ -137,7 +137,7 @@ export default function WasteLog() {
           </SimpleGrid >
           <SimpleGrid minChildWidth="320px" align="center" alignSelf="center" mx="auto">
             <Box>
-              <Input as={Select} mb="2" type="text" name="data" label="EK name" size="md" value={ekName}
+              <Input as={Select} color="gray.600" mb="2" type="text" name="data" label="EK name" size="md" value={ekName}
                 onChange={(e) => setEkName(e.target.value)}
               >
                 {charNames.map((name, index) => <option key={index} value={name}>{name}</option>)}
