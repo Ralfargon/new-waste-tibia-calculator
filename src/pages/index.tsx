@@ -1,4 +1,4 @@
-import { Flex, Text, Box, Button, Stack, Textarea, SimpleGrid } from '@chakra-ui/react'
+import { Flex, Text, Box, Button, Stack, Select, Textarea, SimpleGrid } from '@chakra-ui/react'
 import { useState } from 'react';
 import { Input } from '../components/Form/Input'
 
@@ -19,12 +19,10 @@ export default function WasteLog() {
   const [sessionData1, setSessionData1] = useState("");
   const [preyCard, setPreyCard] = useState("0");
   const [priceTc, setPriceTc] = useState("0");
-  const [EkCard, setEkCard] = useState("");
+  const [ekName, setEkName] = useState("");
 
-  
   function handleSessionData(value) {
     setSessionData1(value);
-
   }
 
   function handlePreyCard(value) {
@@ -33,10 +31,6 @@ export default function WasteLog() {
 
   function handlePriceTc(value) {
     setPriceTc(value);
-  }
-  function handleEkCard(value) {
-    setEkCard(value);
-    console.log(EkCard)
   }
 
 
@@ -60,14 +54,10 @@ export default function WasteLog() {
   }
 
   const sessionData = sessionData1;
-
   const entries = parseSessionData(sessionData);
-
-
 
   let currentChar: string | null = null;
   let charCount = 0;
-  let total = 0;
   const balances: { [key: string]: number } = {};
 
   entries.forEach((entry) => {
@@ -77,49 +67,47 @@ export default function WasteLog() {
     } else if (entry.kind === "data") {
       if (entry.name === "Balance") {
         let balance = parseFloat(entry.value.replace(/,/g, ""));
-
-        if (currentChar === null) {
-          total = balance;
-        } else {
+        if (currentChar !== null) {
           balances[currentChar] = balance;
         }
       }
     }
   });
 
+  // nomes
+  const charNames = Object.keys(balances)
 
-console.log(balances)
+  let preyCardCount = parseFloat(preyCard);
+  preyCardCount = isNaN(preyCardCount) ? 0 : preyCardCount;
 
+  let tcPrice = parseFloat(priceTc);
+  tcPrice = isNaN(tcPrice) ? 0 : tcPrice;
 
-  const preyCardCount = parseFloat(preyCard);
-  const tcPrice = parseFloat(priceTc);
+  if (ekName !== "") {
+    balances[ekName] -= preyCardCount * tcPrice * 10;
+  }
 
-
+  // QUEM EH EK, ek tem supp, /4 pra todo loot, 
   // discount prey card costs
-  total -= preyCardCount * tcPrice * 10;
+  // total -= preyCardCount * tcPrice * 10;
 
+  const total = Object.keys(balances).reduce((total, char) => total + balances[char], 0);
   const k = Math.floor(total / charCount);
-
 
   const toReceive: { name: string; value: number }[] = [];
   const toPay: { name: string; value: number }[] = [];
   Object.keys(balances).forEach((char) => {
     const n = k - balances[char];
 
-
     if (n > 0) {
       toReceive.push({ name: char, value: n });
     } else {
       toPay.push({ name: char, value: -n });
     }
-    console.log(balances)
   });
-
 
   toReceive.sort((a, b) => b.value - a.value);
   toPay.sort((a, b) => b.value - a.value);
-
-
 
   // const result: { payer: string; value: number; receiver: string }[] = [];
   // const result: { [payer: string]: number } = {};
@@ -132,7 +120,6 @@ console.log(balances)
     console.log(`${payer.name} to pay ${amount} to ${receiver.name}`);
     result.push({ payer: payer.name, value: amount, receiver: receiver.name });
 
-
     toReceive[0].value -= amount;
     toPay[0].value -= amount;
 
@@ -143,9 +130,6 @@ console.log(balances)
       toReceive.shift();
     }
   }
-
-  console.log(result)
-
 
   return (
     <>
@@ -165,38 +149,41 @@ console.log(balances)
 
           <SimpleGrid minChildWidth="320px" align="center" alignSelf="center" mx="auto">
             <Box>
-            <Input mb="2" type="text" name="data" label="EK name" size="md"
-                onChange={(event) => {
-                  handleEkCard(event.target.value);
-                }} />
+              <Input as={Select} mb="2" type="text" name="data" label="EK name" size="md" value={ekName}
+                onChange={(e) => setEkName(e.target.value)}
+              >
+                {charNames.map((name, index) => <option key={index} value={name}>{name}</option>)}
+              </Input>
 
-              <Input mb="2" type="number" name="data" label="Prey Card" size="md"
+              <Input mb="2" type="number" name="data" label="Prey Card" size="md" value={preyCard}
                 onChange={(event) => {
                   handlePreyCard(event.target.value);
                 }} />
 
-              <Input type="number" name="data" label="Tc price" size="md"
+              <Input type="number" name="data" label="Tc price" size="md" value={priceTc}
                 onChange={(event) => {
                   handlePriceTc(event.target.value);
                 }} />
 
-              {/* <Button type="submit" mt="6" mb="8" colorScheme="purple" size="md" alignSelf="center">
+              {/* <Button type="submit" mt="6" mb="8" colorScheme="purple" size="md" alignSelf="center"
+              onClick={() => 
+              
+              }
+              >
                 Calcular
               </Button> */}
 
               <Box>
                 <Text mt="8">Result</Text>
-                <Text>{result.map((x, y) =>
-                  <span key={y}>{`${x.payer} to pay ${x.value} to ${x.receiver}`}<br/></span>)}
+                <Text>{result.map((x, y) => 
+                  <span key={y}>{`${x.payer} to pay ${x.value} to ${x.receiver}`}<br /></span>)}
                 </Text>
               </Box>
             </Box>
-          </SimpleGrid >
+          </SimpleGrid>
         </Flex>
 
       </Flex>
     </>
   )
 }
-
-
