@@ -1,5 +1,5 @@
 # new-waste-tibia-calculator
-new-waste-tibia-calculator
+Exemple
 
 
 Session data: From 2021-04-23, 08:07:15 to 2021-04-23, 11:20:20 , <br/>
